@@ -1,0 +1,16 @@
+name: stegoviz_storage
+description: Internal storage for StegoViz using SharedPreferences.
+version: 1.0.0
+
+environment:
+  sdk: ^3.2.3
+
+# Add regular dependencies here.
+dependencies:
+  shared_preferences: ^2.2.2
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.9
+
+dev_dependencies:
+  lints: ^2.1.0
+  test: ^1.24.0
