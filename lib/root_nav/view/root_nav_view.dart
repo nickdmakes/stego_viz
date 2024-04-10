@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:stego_viz/core/stegoviz/stegoviz.dart';
+import 'package:stego_viz/core/image_select/image_select.dart';
 
 import '../bloc/root_nav_cubit.dart';
 import '../widgets/root_nav_bar.dart';
@@ -15,12 +16,14 @@ class RootNavComponents {
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
     GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
   ];
 
   final List<Widget> _offstageList = [
-    const StegoVizPage(),
-    const StegoVizPage(),
-    const StegoVizPage(),
+    Container(color: Colors.black),
+    Container(color: Colors.black),
+    Container(color: Colors.black),
+    Container(color: Colors.black)
   ];
 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
@@ -52,6 +55,7 @@ class RootNavComponents {
       _buildOffstageNavigator(context, 0),
       _buildOffstageNavigator(context, 1),
       _buildOffstageNavigator(context, 2),
+      _buildOffstageNavigator(context, 3),
     ];
   }
 
@@ -70,6 +74,31 @@ class RootNavView extends StatelessWidget {
     return BlocBuilder<RootNavCubit, RootNavState>(
       builder: (context, state) {
         return Scaffold(
+          appBar: AppBar(
+            title: const Text('StegoViz'),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            // icon button on left side of app bar
+            leading: IconButton(
+              icon: const Icon(Icons.home_outlined, size: 28.0, color: Colors.grey),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            // text button on right side of app bar that says save
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Save',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10.0),
+            ],
+          ),
           backgroundColor: Colors.white,
           bottomNavigationBar: RootNavBar(
             currentIndex: state.navIndex,
