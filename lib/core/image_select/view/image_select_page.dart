@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:stegoviz_storage/stegoviz_storage.dart';
+
+import 'package:stego_viz/core/image_select/cubit/image_select_cubit.dart';
 import 'package:stego_viz/root_nav/root_nav.dart';
 
 import 'image_select_view.dart';
@@ -28,7 +32,10 @@ class ImageSelectPage extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: const ImageSelectView(),
+      body: BlocProvider(
+        create: (context) => ImageSelectCubit(stegoVizStorage: context.read<StegoVizStorage>()),
+        child: const ImageSelectView(),
+      ),
     );
   }
 }
