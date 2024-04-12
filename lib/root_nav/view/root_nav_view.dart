@@ -20,10 +20,10 @@ class RootNavComponents {
   ];
 
   final List<Widget> _offstageList = [
-    Container(color: Colors.black),
-    Container(color: Colors.black),
-    Container(color: Colors.black),
-    Container(color: Colors.black)
+    StegoVizPage(),
+    StegoVizPage(),
+    StegoVizPage(),
+    StegoVizPage(),
   ];
 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {

@@ -22,8 +22,10 @@ class ImageSelectCard extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: img.image,
+        // leading is an image with rounded corners
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: img,
         ),
         title: Text(title!),
         subtitle: Text(subtitle!),
