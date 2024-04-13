@@ -3,16 +3,20 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stego_viz/app/bloc/stego_session/stego_session_cubit.dart';
 
 import 'package:stegoviz_storage/stegoviz_storage.dart';
 
 part 'image_select_state.dart';
 
 class ImageSelectCubit extends Cubit<ImageSelectState> {
-  ImageSelectCubit({required StegoVizStorage stegoVizStorage})
+  ImageSelectCubit({
+    required StegoVizStorage stegoVizStorage,
+  })
       : _stegovizStorage = stegoVizStorage,
         super(const ImageSelectState()) {
     _stegoVizSaveSubscription = _stegovizStorage.stegoVizSavesStream.listen(_imageSavesUpdated);
+    _stegovizStorage.pingStegoVizSaves();
   }
 
   final StegoVizStorage _stegovizStorage;
@@ -24,9 +28,9 @@ class ImageSelectCubit extends Cubit<ImageSelectState> {
     return base64Encode(Uint8List.view(bytes.buffer));
   }
 
-  void addTestSave() async {
+  void addTestSave(String id) async {
     final testSave = StegoVizSave(
-      id: '1',
+      id: id,
       title: 'Test Save',
       image: await _imageToBase64('assets/images/image_placeholder.png')
     );

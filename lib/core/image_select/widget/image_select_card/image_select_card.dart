@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:stego_viz/utils.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 
-class ImageSelectCard extends StatelessWidget {
+class ImageSelectCard extends StatefulWidget {
   const ImageSelectCard({
     super.key,
     this.title,
@@ -21,32 +22,45 @@ class ImageSelectCard extends StatelessWidget {
   final Function(BuildContext)? onDelete;
 
   @override
-  Widget build(BuildContext context) {
-    // Convert base64 byte string to image
-    final imgBytes = base64Decode(imageString!);
-    final img = Image.memory(imgBytes);
+  State<ImageSelectCard> createState() => _ImageSelectCardState();
+}
 
+class _ImageSelectCardState extends State<ImageSelectCard> with TickerProviderStateMixin {
+
+  @override
+  void initState() {
+    slidableController = SlidableController(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    slidableController.dispose();
+    super.dispose();
+  }
+
+  late final SlidableController slidableController;
+
+  @override
+  Widget build(BuildContext context) {
     // Slidable List Tile that can be swiped to reveal delete button
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: const ValueKey(0),
-
+      controller: slidableController,
       // The start action pane is the one at the left or the top side.
       endActionPane: ActionPane(
         // A motion is a widget used to control how the pane animates.
         motion: const ScrollMotion(),
-
-        // A pane can dismiss the Slidable.
-        dismissible: DismissiblePane(onDismissed: () {
-          // The dismissible pane can be dismissed by the user.
-          onDelete?.call(context);
-        }),
-
+        extentRatio: 0.3,
+        dragDismissible: false,
         // All actions are defined in the children parameter.
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            onPressed: onDelete,
+            onPressed: (BuildContext _) {
+              widget.onDelete?.call(context);
+            },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -66,11 +80,11 @@ class ImageSelectCard extends StatelessWidget {
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(5.0),
-            child: img,
+            child: Image.memory(base64ToBytes(widget.imageString ?? "")),
           ),
-          title: Text(title ?? ""),
-          subtitle: Text(subtitle ?? ""),
-          onTap: () => onSelect ?? () {},
+          title: Text(widget.title ?? ""),
+          subtitle: Text(widget.subtitle ?? ""),
+          onTap: () => widget.onSelect?.call(),
         ),
       )
     );

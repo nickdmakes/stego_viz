@@ -13,7 +13,7 @@ class StegoVizSave {
     this.image,
   });
 
-  final String id;
+  String id;
   final String? title;
   // base64 byte string
   final String? image;

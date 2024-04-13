@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stego_viz/app/bloc/stego_session/stego_session_cubit.dart';
 
 import 'package:stegoviz_storage/stegoviz_storage.dart';
 
@@ -28,7 +29,10 @@ class ImageSelectPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(context, RootNavPage.route()),
+        onPressed: () {
+          context.read<StegoSessionCubit>().clearSession();
+          Navigator.push(context, RootNavPage.route());
+        },
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

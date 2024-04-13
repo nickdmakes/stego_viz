@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stego_viz/app/bloc/stego_session/stego_session_cubit.dart';
 
 import 'package:stego_viz/core/stegoviz/stegoviz.dart';
 import 'package:stego_viz/core/image_select/image_select.dart';
+import 'package:stegoviz_storage/stegoviz_storage.dart';
 
 import '../bloc/root_nav_cubit.dart';
 import '../widgets/root_nav_bar.dart';
@@ -87,7 +89,14 @@ class RootNavView extends StatelessWidget {
             // text button on right side of app bar that says save
             actions: <Widget>[
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  final image = context.read<StegoSessionCubit>().state.selectedImage;
+                  if (image.isEmpty) {
+                    print('No image selected');
+                    return;
+                  }
+                  context.read<StegoSessionCubit>().saveSessionToStorage();
+                },
                 child: Text(
                   'Save',
                   style: TextStyle(
@@ -99,7 +108,7 @@ class RootNavView extends StatelessWidget {
               const SizedBox(width: 10.0),
             ],
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           bottomNavigationBar: RootNavBar(
             currentIndex: state.navIndex,
             onTabPressed: (int index) {

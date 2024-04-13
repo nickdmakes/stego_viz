@@ -15,13 +15,14 @@ class RootNavBar extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         // no splash when button is pressed
         iconSize: 28,
         selectedFontSize: 11.0,
-        selectedIconTheme: const IconThemeData(size: 30),
+        selectedIconTheme: const IconThemeData(size: 26),
         selectedLabelStyle: const TextStyle(color: Colors.white),
         showSelectedLabels: true,
         selectedItemColor: Colors.white,

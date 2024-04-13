@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:stego_viz/root_nav/root_nav.dart';
 
+import '../widget/image_viewer/image_viewer.dart';
 import '../widget/editors/message_editor.dart';
 import '../widget/editors/color_editor.dart';
 import '../widget/editors/embed_editor.dart';
@@ -14,11 +15,9 @@ class StegoVizView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
+        const Expanded(
           flex: 3,
-          child: Container(
-            color: Colors.red,
-          ),
+          child: ImageViewer(),
         ),
         Expanded(
           flex: 2,
