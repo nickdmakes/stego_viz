@@ -61,10 +61,10 @@ class StegoVizStorage {
     if (id.isEmpty) {
       id = generateId();
     }
-    save.id = id;
+    final newSave = save.copyWith(id: id);
     final List<StegoVizSave> stegoVizSaves = await getStegoVizSaves();
     final List<String> saveStrings = stegoVizSaves.map((e) => jsonEncode(e.toJson())).toList();
-    final String saveString = jsonEncode(save.toJson());
+    final String saveString = jsonEncode(newSave.toJson());
 
     final index = stegoVizSaves.indexWhere((element) => element.id == id);
     if(index != -1) {

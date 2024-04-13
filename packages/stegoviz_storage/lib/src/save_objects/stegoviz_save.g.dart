@@ -7,9 +7,9 @@ part of 'stegoviz_save.dart';
 // **************************************************************************
 
 StegoVizSave _$StegoVizSaveFromJson(Map<String, dynamic> json) => StegoVizSave(
-      id: json['id'] as String,
-      title: json['title'] as String?,
-      image: json['image'] as String?,
+      id: json['id'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      image: json['image'] as String? ?? '',
     );
 
 Map<String, dynamic> _$StegoVizSaveToJson(StegoVizSave instance) =>
