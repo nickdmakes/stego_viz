@@ -1,6 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:stego_viz/utils.dart';
+import 'package:stego_viz/imutils.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 
@@ -46,7 +45,6 @@ class _ImageSelectCardState extends State<ImageSelectCard> with TickerProviderSt
     // Slidable List Tile that can be swiped to reveal delete button
     return Slidable(
       // Specify a key if the Slidable is dismissible.
-      key: const ValueKey(0),
       controller: slidableController,
       // The start action pane is the one at the left or the top side.
       endActionPane: ActionPane(
@@ -82,8 +80,14 @@ class _ImageSelectCardState extends State<ImageSelectCard> with TickerProviderSt
             borderRadius: BorderRadius.circular(5.0),
             child: Image.memory(base64ToBytes(widget.imageString ?? "")),
           ),
+          trailing: const Icon(Icons.chevron_right, color: Colors.grey),
           title: Text(widget.title ?? ""),
-          subtitle: Text(widget.subtitle ?? ""),
+          subtitle: Text(
+            widget.subtitle ?? "",
+            style: const TextStyle(
+              fontSize: 12.0,
+            ),
+          ),
           onTap: () => widget.onSelect?.call(),
         ),
       )

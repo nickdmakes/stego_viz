@@ -22,10 +22,10 @@ class RootNavComponents {
   ];
 
   final List<Widget> _offstageList = [
-    StegoVizPage(),
-    StegoVizPage(),
-    StegoVizPage(),
-    StegoVizPage(),
+    const StegoVizPage(),
+    const StegoVizPage(),
+    const StegoVizPage(),
+    const StegoVizPage(),
   ];
 
   Map<String, WidgetBuilder> _routeBuilders(BuildContext context, int index) {
@@ -89,10 +89,9 @@ class RootNavView extends StatelessWidget {
             // text button on right side of app bar that says save
             actions: <Widget>[
               TextButton(
-                onPressed: () {
-                  final image = context.read<StegoSessionCubit>().state.selectedImage;
+                onPressed: () async {
+                  final image = context.read<StegoSessionCubit>().state.save.image;
                   if (image.isEmpty) {
-                    print('No image selected');
                     return;
                   }
                   context.read<StegoSessionCubit>().saveSessionToStorage();

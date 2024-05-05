@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stego_viz/imutils.dart';
+
 import 'package:stegoviz_storage/stegoviz_storage.dart';
 
-import 'package:stego_viz/root_nav/root_nav.dart';
+import 'package:stego_viz/core/stegoviz/stegoviz.dart';
 import 'package:stego_viz/app/bloc/stego_session/stego_session_cubit.dart';
 import 'package:stego_viz/core/image_select/cubit/image_select_cubit.dart';
 
@@ -33,16 +35,22 @@ class _StegoVizSavesListView extends StatelessWidget {
       itemCount: saves.length,
       itemBuilder: (context, index) {
         final save = saves[index];
+        final imageWidth = getImageWidth(base64ToBytes(save.image)).toString();
+        final imageHeight = getImageHeight(base64ToBytes(save.image)).toString();
+        final imageSize = prettifyImageSize(save.image);
         return Column(
           children: [
             ImageSelectCard(
-              title: save.id,
-              subtitle: "${save.image!.length} bytes",
+              title: save.title,
+              subtitle: '${imageWidth}x$imageHeight - $imageSize',
               imageString: save.image,
-              onDelete: (BuildContext _) => context.read<ImageSelectCubit>().removeStegoVizSave(save.id),
+              onDelete: (BuildContext _) {
+                context.read<ImageSelectCubit>().removeStegoVizSave(save.id);
+              },
               onSelect: () {
                 context.read<StegoSessionCubit>().loadSaveToSession(save);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RootNavPage()));
+                context.read<StegoSessionCubit>().applySteganography();
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const StegoVizPage()));
               },
             ),
             const SizedBox(height: 4),

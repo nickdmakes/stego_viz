@@ -1,7 +1,7 @@
 import 'dart:async';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'storage_keys.dart';
 import 'save_objects/stegoviz_save.dart';
@@ -45,7 +45,14 @@ class StegoVizStorage {
     final instance = await SharedPreferences.getInstance();
     final List<String>? stegoVizSaves = instance.getStringList(storageKeys[1]);
     if(stegoVizSaves != null) {
-      return stegoVizSaves.map((e) => StegoVizSave.fromJson(jsonDecode(e))).toList();
+      final saveObjects = stegoVizSaves.map((e) => StegoVizSave.fromJson(jsonDecode(e))).toList();
+      saveObjects.sort((a, b) {
+        final format = DateFormat('y-MM-dd HH:mm:ss');
+        final aTime = format.parse(a.lastSaved);
+        final bTime = format.parse(b.lastSaved);
+        return bTime.compareTo(aTime);
+      });
+      return saveObjects;
     } else {
       return [];
     }
@@ -61,7 +68,9 @@ class StegoVizStorage {
     if (id.isEmpty) {
       id = generateId();
     }
-    final newSave = save.copyWith(id: id);
+    // get the current date time as string for lastSaved. format: yyyy-mm-dd hh:mm:ss
+    final lastSaved = DateFormat('y-MM-dd HH:mm:ss').format(DateTime.now());
+    final newSave = save.copyWith(id: id, lastSaved: lastSaved);
     final List<StegoVizSave> stegoVizSaves = await getStegoVizSaves();
     final List<String> saveStrings = stegoVizSaves.map((e) => jsonEncode(e.toJson())).toList();
     final String saveString = jsonEncode(newSave.toJson());
