@@ -1,7 +1,3 @@
 # stego_viz
 
-Steganography education and visualization tool
-
-## Getting Started
-
-TODO
+Steganography education and visualization tool built with the Flutter framework
