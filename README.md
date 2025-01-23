@@ -1,3 +1,5 @@
-# stego_viz
+# StegoViz
 
-Steganography education and visualization tool built with the Flutter framework
+Steganography education and visualization mobile application tool built with the Flutter framework
+
+## 
